@@ -20,6 +20,19 @@ class DepositsService {
     return deposit;
   }
 
+  async findByUser(userId) {
+    console.log(userId);
+    const Deposits = await models.Deposit.findAll({
+      where: {
+        userId: userId,
+      }
+    });
+    if (!Deposits) throw boom.notFound('product not found');
+    return Deposits;
+  }
+
+
+
   async findByPool(userId, pool) {
     const poolDeposits = await models.Deposit.findAll({
       where: {

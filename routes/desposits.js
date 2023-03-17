@@ -26,22 +26,21 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const deposits = await service.findOne(id);
-    res.json(deposits);
-  } catch (error) {
-    next(error);
-  }
-});
+
 
 router.get('/:userId', async (req, res, next) => {
   try {
     const pool = req.query.pool;
     const { userId } = req.params;
+    console.log(userId);
+    if(pool){
+      const depositsPool = await service.findByPool(userId, pool);
+      return depositsPool;
+    }
 
-    const deposits = await service.findByPool(userId, pool);
+   const deposits = await service.findByUser(userId);
+
+
     res.json(deposits);
   } catch (error) {
     next(error);
